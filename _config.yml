@@ -31,6 +31,9 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: ""
 url: "https://cylc.github.io" 
 
+baseurl: "/cylc.github.io"
+url: "https://hjoliver.github.io/cylc.github.io"
+
 # DEVELOPER FORK (GH user "bob") for testing changes:
 # baseurl: "/cylc.github.io"
 # url: "https://bob.github.io/cylc.github.io"
