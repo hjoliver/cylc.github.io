@@ -547,10 +547,12 @@
        * @param {string} link - A URL link to the next release.
         */
       function populateProgress(openIssues, closedIssues, title, link) {
-          const workProgress = closedIssues * 100 / (openIssues + closedIssues);
+          // TEMP hot fix !!!!! const workProgress = closedIssues * 100 / (openIssues + closedIssues);
+          const workProgress = 96;
 
           const milestoneVersion = document.getElementById("milestone-version");
-          milestoneVersion.innerHTML = title;
+          // TEMP hot fix !!!!!  milestoneVersion.innerHTML = title;
+          milestoneVersion.innerHTML = "8.3.0";
 
           const milestoneURL = document.getElementById("milestone-url");
           milestoneURL.setAttribute('href', link);
@@ -599,94 +601,6 @@
         }
       }
 
-      // --- Releases
-
-      /**
-       * Populate HTML elements with information about the latest release.
-       *
-       * @param cylcx {string} - 'cylc8' or 'cylc7'
-       * @param name {string} -  name of the release
-       * @param link {string} - URL of the release
-       * @param publishedAt {string} - raw text date as returned from the API
-       */
-      function populateLatestReleaseInformation(cylcx, name, link, publishedAt) {
-        const latestReleaseName = document.getElementById(cylcx + "-latest-release-name");
-        latestReleaseName.innerHTML = name;
-
-        const latestReleaseURL = document.getElementById(cylcx + "-button");
-        latestReleaseURL.href = link;
-
-        const latestReleaseDateText = document.getElementById(cylcx + "-latest-release-pubdate-text");
-        latestReleaseDateText.innerHTML = `Released: ${publishedAt}`;
-      }
-
-      /**
-       * @param release {{
-       *   name: String,
-       *   published_at: String,
-       *   tag_name: String
-       * }}
-       * @return {string} - Release date formatted as M/D/Y (e.g. 5/14/2020).
-       */
-      function getReleaseDate (release) {
-        return new Date(release.published_at).toLocaleString().split(',')[0]
-      }
-
-      /**
-       * @param {[
-       *   {
-       *     name: String,
-       *     published_at: String,
-       *     tag_name: String
-       *   }
-       * ]} releases - The list of releases.
-       */
-      function showReleases(releases) {
-        // show latest Cylc 7 release
-        const latestCylc7 = releases
-          .filter(release => release.name.startsWith("cylc-7.9"))
-          .sort((left, right) => new Date(left.published_at) - new Date(right.published_at))
-          .pop()
-        if (latestCylc7) {
-          populateLatestReleaseInformation(
-            "cylc7",
-            latestCylc7.name,
-            `${TAGS_URL}${latestCylc7.tag_name}`,
-            getReleaseDate(latestCylc7))
-        }
-
-        // show latest Cylc 8 release
-        const latestCylc8 = releases
-          .filter(release => release.name.startsWith("cylc-flow-8"))
-          .sort((left, right) => new Date(left.published_at) - new Date(right.published_at))
-          .pop()
-        if (latestCylc8) {
-          populateLatestReleaseInformation(
-            "cylc8",
-            latestCylc8.name,
-            `${TAGS_URL}${latestCylc8.tag_name}`,
-            getReleaseDate(latestCylc8))
-        }
-      }
-
-      /**
-       * Retrieve the releases of the project.
-       * @return {Promise} A Promise object that populates and creates DOM elements, or returns the status text on error.
-       */
-      function retrieveReleases() {
-        const releases = CACHE.get('releases');
-        if (releases !== null) {
-          return new Promise(function () {
-            showReleases(releases);
-          })
-        } else {
-          return doGet(RELEASES_URL).then(function (releases) {
-            CACHE.put('releases', releases);
-            showReleases(releases);
-          })
-        }
-      }
-
       // --- window.onload
 
       /**
@@ -696,8 +610,7 @@
        */
       window.onload = function () {
         Promise.all([
-          retrieveProgress(),
-          retrieveReleases()
+          retrieveProgress()
         ])
           .catch(function(error) {
             // Any error propagated here will be logged to the browser console
