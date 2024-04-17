@@ -314,8 +314,8 @@
             href="https://doi.org/10.1109/MCSE.2019.2906593"
             >
 
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" width="208"
+            <svg xmlns="https://www.w3.org/2000/svg"
+                 xmlns:xlink="https://www.w3.org/1999/xlink" width="208"
                                                             height="20" role="img" aria-label="DOI:
                                                                     10.1109/MCSE.2019.2906593">
               <title>DOI: 10.1109/MCSE.2019.2906593</title>
@@ -362,7 +362,7 @@
             href="https://doi.org/10.21105/joss.00737"
             >
             <img
-              src="http://joss.theoj.org/papers/10.21105/joss.00737/status.svg"
+              src="https://joss.theoj.org/papers/10.21105/joss.00737/status.svg"
               style="width:auto" />
           </a>
             <br />
@@ -547,12 +547,10 @@
        * @param {string} link - A URL link to the next release.
         */
       function populateProgress(openIssues, closedIssues, title, link) {
-          // TEMP hot fix !!!!! const workProgress = closedIssues * 100 / (openIssues + closedIssues);
-          const workProgress = 96;
+          const workProgress = closedIssues * 100 / (openIssues + closedIssues);
 
           const milestoneVersion = document.getElementById("milestone-version");
-          // TEMP hot fix !!!!!  milestoneVersion.innerHTML = title;
-          milestoneVersion.innerHTML = "8.3.0";
+          milestoneVersion.innerHTML = title;
 
           const milestoneURL = document.getElementById("milestone-url");
           milestoneURL.setAttribute('href', link);
